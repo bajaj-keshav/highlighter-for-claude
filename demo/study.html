@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en" data-doc-id="krebs-cycle-demo">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Krebs cycle</title>
+<style>
+:root{--bg:#faf9f5;--fg:#1f1e1d;--muted:#6b6a65;--line:rgba(31,30,29,.13);--panel:#fff;--soft:rgba(31,30,29,.06);
+--yellow:rgba(255,212,0,.45);--green:rgba(74,222,128,.4);--blue:rgba(96,165,250,.38);--pink:rgba(244,114,182,.36)}
+:root[data-theme=dark]{--bg:#262624;--fg:#ece9e1;--muted:#a6a59f;--line:rgba(255,255,255,.12);--panel:#30302e;--soft:rgba(255,255,255,.07);
+--yellow:rgba(250,204,21,.34);--green:rgba(74,222,128,.28);--blue:rgba(96,165,250,.34);--pink:rgba(244,114,182,.32)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#262624;--fg:#ece9e1;--muted:#a6a59f;--line:rgba(255,255,255,.12);--panel:#30302e;--soft:rgba(255,255,255,.07);
+--yellow:rgba(250,204,21,.34);--green:rgba(74,222,128,.28);--blue:rgba(96,165,250,.34);--pink:rgba(244,114,182,.32)}}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg)}
+body{font:17px/1.7 Georgia,"Iowan Old Style","Times New Roman",serif;-webkit-text-size-adjust:100%}
+#top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--bg);border-bottom:1px solid var(--line);font:13px system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--muted)}
+#top span{flex:1}
+#top button,#bar button{font:inherit;color:var(--fg);background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer}
+#content{max-width:700px;margin:0 auto;padding:20px 16px 120px;overflow-wrap:break-word}
+#content h1{font-size:1.6em;line-height:1.25;margin:.4em 0 .6em}
+#content h2{font-size:1.3em;margin:1.4em 0 .4em}
+#content h3{font-size:1.1em;margin:1.2em 0 .3em}
+#content code{font:.88em ui-monospace,Menlo,monospace;background:var(--soft);padding:1px 4px;border-radius:4px}
+#content pre{background:var(--soft);padding:12px;border-radius:8px;overflow-x:auto}
+#content pre code{background:none;padding:0}
+#content table{border-collapse:collapse;display:block;overflow-x:auto}
+#content th,#content td{border:1px solid var(--line);padding:6px 10px;text-align:left}
+#content blockquote{margin:1em 0;padding-left:14px;border-left:3px solid var(--line);color:var(--muted)}
+mark.hl{color:inherit;border-radius:2px;cursor:pointer;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.hl-yellow{background:var(--yellow)}.hl-green{background:var(--green)}.hl-blue{background:var(--blue)}.hl-pink{background:var(--pink)}
+#bar{position:fixed;z-index:10;display:none;gap:2px;padding:4px;background:var(--panel);border:1px solid var(--line);border-radius:999px;box-shadow:0 6px 24px rgba(0,0,0,.18);user-select:none;-webkit-user-select:none}
+#bar.open{display:flex}
+#bar button{width:34px;height:34px;padding:0;border:0;border-radius:999px;background:none;display:grid;place-items:center}
+#bar i{width:18px;height:18px;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+#bar .on i{box-shadow:0 0 0 2px var(--panel),0 0 0 3.5px var(--fg)}
+#bar .del{display:none}#bar.edit .del{display:grid}
+#bar svg{width:17px;height:17px;fill:none;stroke:var(--fg);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@media (pointer:coarse){#bar button{width:42px;height:42px}#bar i{width:22px;height:22px}}
+@media print{#top,#bar{display:none}}
+</style>
+</head>
+<body>
+<div id="top"><span id="count">Select text to highlight</span><button id="copy" type="button">Copy highlights</button><button id="theme" type="button" aria-label="Switch light or dark">◐</button></div>
+<article id="content">
+<h1>The Krebs cycle</h1>
+<p>The <strong>Krebs cycle</strong> (also called the citric acid cycle) is the central step of cellular respiration. It takes place in the <em>mitochondrial matrix</em> and turns acetyl-CoA into carbon dioxide while it captures energy.</p>
+<h2>Key steps</h2>
+<ol>
+<li>Acetyl-CoA joins oxaloacetate to make citrate.</li>
+<li>Citrate changes to isocitrate.</li>
+<li>Isocitrate is oxidized to α-ketoglutarate, and one CO₂ is released.</li>
+<li>α-Ketoglutarate is oxidized to succinyl-CoA, and a second CO₂ is released.</li>
+</ol>
+<h2>What one turn produces</h2>
+<table>
+<thead><tr><th>Product</th><th>Per turn</th><th>Per glucose</th></tr></thead>
+<tbody>
+<tr><td>NADH</td><td>3</td><td>6</td></tr>
+<tr><td>FADH₂</td><td>1</td><td>2</td></tr>
+<tr><td>GTP (or ATP)</td><td>1</td><td>2</td></tr>
+<tr><td>CO₂</td><td>2</td><td>4</td></tr>
+</tbody>
+</table>
+<p>Remember: the cycle itself makes little ATP directly. Its main job is to load <code>NADH</code> and <code>FADH₂</code> with electrons for the electron transport chain.</p>
+</article>
+<div id="bar" role="toolbar" aria-label="Highlighter">
+<button data-c="yellow" aria-label="Yellow"><i style="background:#FACC15"></i></button>
+<button data-c="green" aria-label="Green"><i style="background:#4ADE80"></i></button>
+<button data-c="blue" aria-label="Blue"><i style="background:#60A5FA"></i></button>
+<button data-c="pink" aria-label="Pink"><i style="background:#F472B6"></i></button>
+<button class="del" aria-label="Remove highlight"><svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></svg></button>
+</div>
+<script>
+(() => {
+  const root = document.getElementById('content');
+  const bar = document.getElementById('bar');
+  const countEl = document.getElementById('count');
+  const coarse = matchMedia('(pointer: coarse)').matches;
+  const rawId = document.documentElement.dataset.docId || '';
+  const docId = /^[\w-]{1,80}$/.test(rawId) ? rawId : 'doc-' + hash(root.textContent);
+  const KEY = 'hl-' + docId;
+  let items = [];       // { id, start, end, color, text }
+  let last = 'yellow';
+  let ui = null;        // { mode: 'new', range } | { mode: 'edit', id, el }
+
+  function hash(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); }
+
+  // Storage: Claude artifact storage if present, else localStorage, else memory only.
+  const store = {
+    async get(k) {
+      try { if (window.storage) { const r = await window.storage.get(k); if (r && r.value) return JSON.parse(r.value); } } catch (e) {}
+      try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (e) { return null; }
+    },
+    async set(k, v) {
+      const s = JSON.stringify(v);
+      try { if (window.storage) { await window.storage.set(k, s); return; } } catch (e) {}
+      try { localStorage.setItem(k, s); } catch (e) {}
+    },
+  };
+
+  // Text positions are counted in the plain text of #content.
+  function textNodes() { const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT); const a = []; let n; while ((n = w.nextNode())) a.push(n); return a; }
+  function offsetOf(node, off) { const r = document.createRange(); r.selectNodeContents(root); r.setEnd(node, off); return r.toString().length; }
+
+  function unwrapAll() { root.querySelectorAll('mark.hl').forEach((m) => m.replaceWith(...m.childNodes)); root.normalize(); }
+  function wrap(it) {
+    let pos = 0;
+    for (const n of textNodes()) {
+      const len = n.data.length, s = Math.max(it.start, pos), e = Math.min(it.end, pos + len);
+      // Skip line breaks between blocks (for example between two list items).
+      if (s < e && !(/\n/.test(n.data) && !n.data.slice(s - pos, e - pos).trim())) {
+        let t = n;
+        if (s > pos) t = t.splitText(s - pos);
+        if (e < pos + len) t.splitText(e - s);
+        const m = document.createElement('mark');
+        m.className = 'hl hl-' + it.color;
+        m.dataset.id = it.id;
+        t.parentNode.insertBefore(m, t);
+        m.appendChild(t);
+      }
+      pos += len;
+    }
+  }
+  function render() {
+    unwrapAll();
+    items.forEach(wrap);
+    countEl.textContent = items.length ? items.length + (items.length === 1 ? ' highlight' : ' highlights') : 'Select text to highlight';
+  }
+  const save = () => store.set(KEY, { items, last });
+
+  function add(range, color) {
+    const full = root.textContent;
+    let s = offsetOf(range.startContainer, range.startOffset), e = offsetOf(range.endContainer, range.endOffset);
+    while (s < e && /\s/.test(full[s])) s++;
+    while (e > s && /\s/.test(full[e - 1])) e--;
+    if (e <= s) return;
+    // Grow a half-selected word to the full word, but never across two text pieces.
+    const edges = new Set(); let p = 0;
+    for (const n of textNodes()) { edges.add(p); p += n.data.length; }
+    const w = (c) => !!c && /[\p{L}\p{N}\p{M}]/u.test(c);
+    while (s > 0 && !edges.has(s) && w(full[s]) && w(full[s - 1])) s--;
+    while (e < full.length && !edges.has(e) && w(full[e - 1]) && w(full[e])) e++;
+    // Join highlights that overlap or touch, so colors never stack.
+    items = items.filter((it) => {
+      if (it.start <= e && it.end >= s) { s = Math.min(s, it.start); e = Math.max(e, it.end); return false; }
+      return true;
+    });
+    items.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), start: s, end: e, color, text: full.slice(s, e) });
+    items.sort((a, b) => a.start - b.start);
+    render(); save();
+  }
+
+  // If the text changed after an update, find each highlight again by its text.
+  function reanchor(list) {
+    const full = root.textContent;
+    return list.filter((it) => {
+      if (full.slice(it.start, it.end) === it.text) return true;
+      let best = -1, i = full.indexOf(it.text);
+      while (i !== -1) { if (best < 0 || Math.abs(i - it.start) < Math.abs(best - it.start)) best = i; i = full.indexOf(it.text, i + 1); }
+      if (best < 0) return false;
+      it.end = best + it.text.length; it.start = best; return true;
+    });
+  }
+
+  // Floating toolbar
+  function place() {
+    if (!ui) return;
+    const r = ui.mode === 'new' ? ui.range.getBoundingClientRect() : ui.el.getBoundingClientRect();
+    const w = bar.offsetWidth, h = bar.offsetHeight, g = 10;
+    // On touch screens go below the text, so the phone's own copy menu stays visible.
+    let top = coarse ? r.bottom + g : r.top - h - g;
+    if (top < 48) top = r.bottom + g;
+    if (top + h > innerHeight - g) top = r.top - h - g;
+    bar.style.top = Math.round(top) + 'px';
+    bar.style.left = Math.round(Math.max(g, Math.min((r.left + r.right) / 2 - w / 2, innerWidth - w - g))) + 'px';
+  }
+  function show(state) {
+    ui = state;
+    bar.classList.add('open');
+    bar.classList.toggle('edit', state.mode === 'edit');
+    const cur = state.mode === 'edit' ? (items.find((i) => i.id === state.id) || {}).color : null;
+    bar.querySelectorAll('[data-c]').forEach((b) => b.classList.toggle('on', b.dataset.c === cur));
+    place();
+  }
+  function hide() { ui = null; bar.classList.remove('open'); }
+
+  function selected() {
+    const sel = getSelection();
+    if (!sel || sel.isCollapsed || !sel.rangeCount) return null;
+    const r = sel.getRangeAt(0);
+    if (!root.contains(r.commonAncestorContainer) || !r.toString().trim()) return null;
+    return r.cloneRange();
+  }
+
+  let down = false, timer = 0;
+  const check = () => { const r = selected(); if (r) show({ mode: 'new', range: r }); else if (ui && ui.mode === 'new') hide(); };
+  document.addEventListener('pointerdown', (e) => { if (!bar.contains(e.target)) { down = true; hide(); } });
+  document.addEventListener('pointerup', () => { down = false; setTimeout(check, 10); });
+  document.addEventListener('pointercancel', () => { down = false; });
+  document.addEventListener('selectionchange', () => { clearTimeout(timer); timer = setTimeout(() => { if (!down) check(); }, coarse ? 350 : 150); });
+  root.addEventListener('click', (e) => {
+    const m = e.target.closest('mark.hl');
+    if (m && getSelection().isCollapsed) show({ mode: 'edit', id: m.dataset.id, el: m });
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hide(); });
+  addEventListener('scroll', () => ui && place(), { passive: true });
+  addEventListener('resize', () => ui && place());
+
+  bar.addEventListener('pointerdown', (e) => e.preventDefault());
+  bar.addEventListener('click', (e) => {
+    const b = e.target.closest('button');
+    if (!b || !ui) return;
+    if (b.classList.contains('del')) {
+      items = items.filter((i) => i.id !== ui.id);
+    } else if (ui.mode === 'new') {
+      last = b.dataset.c; add(ui.range, last); getSelection().removeAllRanges();
+    } else {
+      const it = items.find((i) => i.id === ui.id); if (it) it.color = last = b.dataset.c;
+    }
+    hide(); render(); save();
+  });
+
+  // Copy all highlights as a list, in reading order.
+  const copyBtn = document.getElementById('copy');
+  copyBtn.addEventListener('click', async () => {
+    const title = document.title;
+    const text = '# Highlights: ' + title + '\n\n' + items.map((i) => '- ' + i.text.replace(/\s*\n\s*/g, ' ')).join('\n') + '\n';
+    let ok = false;
+    try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {
+      const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select();
+      try { ok = document.execCommand('copy'); } catch (e2) {}
+      t.remove();
+    }
+    copyBtn.textContent = !items.length ? 'Nothing to copy' : ok ? 'Copied ✓' : 'Copy failed';
+    setTimeout(() => { copyBtn.textContent = 'Copy highlights'; }, 1500);
+  });
+
+  // Light / dark: follows the device; the ◐ button changes it.
+  const themeBtn = document.getElementById('theme');
+  const isDark = () => document.documentElement.dataset.theme ? document.documentElement.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  themeBtn.addEventListener('click', () => {
+    const next = isDark() ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    store.set('hl-theme', next);
+  });
+
+  store.get('hl-theme').then((t) => { if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; });
+  store.get(KEY).then((data) => {
+    if (data && Array.isArray(data.items)) { items = reanchor(data.items); last = data.last || last; }
+    render();
+  });
+})();
+</script>
+</body>
+</html>
