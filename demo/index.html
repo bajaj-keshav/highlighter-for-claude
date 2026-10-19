@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claude Highlighter Demo</title>
+  <style>
+    /* A rough copy of the claude.ai chat look, to test the highlighter locally. */
+    body { margin: 0; font: 16px/1.65 Georgia, "Times New Roman", serif; background: #faf9f5; color: #141413; transition: background .2s, color .2s; }
+    body.dark { background: #262624; color: #e8e6dc; }
+    main { max-width: 720px; margin: 0 auto; padding: 24px 16px 140px; }
+    .top { display: flex; justify-content: space-between; align-items: center; font: 14px system-ui, sans-serif; }
+    .top button { font: inherit; padding: 6px 12px; border-radius: 8px; border: 1px solid #8884; background: transparent; color: inherit; cursor: pointer; }
+    .user { margin: 28px 0 8px auto; width: fit-content; max-width: 80%; padding: 10px 14px; border-radius: 12px; background: #f0eee6; font-family: system-ui, sans-serif; font-size: 15px; }
+    body.dark .user { background: #141413; }
+    h2 { font-size: 20px; margin: 24px 0 8px; }
+    code { font: 14px ui-monospace, Menlo, monospace; background: #8882; padding: 1px 4px; border-radius: 4px; }
+    .composer { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); width: min(720px, calc(100% - 32px)); box-sizing: border-box; padding: 14px 16px; border-radius: 16px; background: #fff; border: 1px solid #8883; font: 15px system-ui, sans-serif; min-height: 52px; }
+    body.dark .composer { background: #30302e; }
+  </style>
+  <script>
+    // Stand-in for the chrome.* extension APIs, so content.js runs on a plain page.
+    window.chrome = {
+      storage: {
+        local: {
+          async get(key) { const v = localStorage.getItem('demo:' + key); return v ? { [key]: JSON.parse(v) } : {}; },
+          async set(obj) { for (const [k, v] of Object.entries(obj)) localStorage.setItem('demo:' + k, JSON.stringify(v)); },
+          async remove(key) { localStorage.removeItem('demo:' + key); },
+        },
+        onChanged: { addListener() {} },
+      },
+      runtime: { onMessage: { addListener() {} } },
+    };
+  </script>
+</head>
+<body>
+  <main>
+    <div class="top">
+      <strong>Highlighter demo</strong>
+      <button id="theme">Switch to dark mode</button>
+    </div>
+
+    <div class="user">Explain the Krebs cycle for my biology exam.</div>
+
+    <div class="answer">
+      <p>The <strong>Krebs cycle</strong> (also called the citric acid cycle) is the central step of cellular respiration. It takes place in the <em>mitochondrial matrix</em> and turns acetyl-CoA into carbon dioxide while it captures energy.</p>
+      <h2>Key steps</h2>
+      <ol>
+        <li>Acetyl-CoA joins oxaloacetate to make citrate.</li>
+        <li>Citrate changes to isocitrate.</li>
+        <li>Isocitrate is oxidized to α-ketoglutarate, and one CO₂ is released.</li>
+        <li>α-Ketoglutarate is oxidized to succinyl-CoA, and a second CO₂ is released.</li>
+      </ol>
+      <h2>What one turn produces</h2>
+      <p>Each turn makes <strong>3 NADH</strong>, <strong>1 FADH₂</strong>, <strong>1 GTP (or ATP)</strong> and <strong>2 CO₂</strong>. Because one glucose gives two acetyl-CoA, the cycle turns twice for each glucose.</p>
+      <p>Remember: the cycle itself makes little ATP directly. Its main job is to load <code>NADH</code> and <code>FADH₂</code> with electrons for the electron transport chain.</p>
+    </div>
+  </main>
+
+  <div class="composer" contenteditable="true">Reply to Claude… (text here cannot be highlighted)</div>
+
+  <script>
+    const btn = document.getElementById('theme');
+    btn.onclick = () => {
+      const dark = document.body.classList.toggle('dark');
+      btn.textContent = dark ? 'Switch to light mode' : 'Switch to dark mode';
+    };
+  </script>
+  <script src="../extension/content.js"></script>
+</body>
+</html>

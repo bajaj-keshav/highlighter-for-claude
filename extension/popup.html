@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Claude Highlighter</title>
+  <style>
+    :root {
+      --bg: #faf9f5;
+      --text: #1f1e1d;
+      --muted: #6b6a65;
+      --border: rgba(31, 30, 29, 0.14);
+      --btn: #1f1e1d;
+      --btn-text: #faf9f5;
+      --btn2: rgba(31, 30, 29, 0.06);
+      --danger: #b42318;
+      --mark: rgba(255, 212, 0, 0.45);
+    }
+    :root[data-theme="dark"] {
+      --bg: #262624;
+      --text: #f0efea;
+      --muted: #a6a59f;
+      --border: rgba(255, 255, 255, 0.12);
+      --btn: #f0efea;
+      --btn-text: #1f1e1d;
+      --btn2: rgba(255, 255, 255, 0.08);
+      --danger: #ff8a80;
+      --mark: rgba(250, 204, 21, 0.34);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      width: 300px;
+      padding: 16px;
+      background: var(--bg);
+      color: var(--text);
+      font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    header img { width: 28px; height: 28px; }
+    h1 { margin: 0; font-size: 15px; font-weight: 600; }
+    #status { margin: 0 0 12px; }
+    #status mark { background: var(--mark); color: inherit; padding: 0 2px; border-radius: 2px; }
+    .actions { display: grid; gap: 8px; }
+    button {
+      font: inherit;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--btn2);
+      color: var(--text);
+      cursor: pointer;
+    }
+    button.primary { background: var(--btn); color: var(--btn-text); border-color: transparent; }
+    button.danger { color: var(--danger); }
+    button:disabled { opacity: 0.45; cursor: default; }
+    button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+    .help {
+      margin: 14px 0 0;
+      padding: 12px 0 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+    .help ol { margin: 0; padding-left: 18px; }
+    .help li + li { margin-top: 4px; }
+    kbd {
+      font: 11.5px ui-monospace, SFMono-Regular, Menlo, monospace;
+      padding: 1px 5px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="icons/icon48.png" alt="">
+    <h1>Claude Highlighter</h1>
+  </header>
+
+  <p id="status">Loading…</p>
+
+  <div class="actions" id="actions" hidden>
+    <button class="primary" id="copy">Copy all highlights</button>
+    <button class="danger" id="clear">Remove all highlights</button>
+  </div>
+
+  <div class="help">
+    <ol>
+      <li>Select text in a chat.</li>
+      <li>Click a color.</li>
+      <li>Click a highlight to change or remove it.</li>
+    </ol>
+    <p style="margin:8px 0 0">Shortcut: select text, then press <kbd>Alt</kbd>+<kbd>H</kbd> (<kbd>⌥</kbd>+<kbd>H</kbd> on Mac).</p>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
