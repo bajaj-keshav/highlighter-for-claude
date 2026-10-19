@@ -107,6 +107,24 @@ For **Claude Code**: copy the `skill/study-highlighter` folder to `~/.claude/ski
 
 ---
 
+## Privacy and security
+
+**Browser extension**
+
+- Permissions: only `storage`. It runs only on `https://claude.ai/*`.
+- No network: the code makes no requests and loads no outside code.
+- Your highlights, including the highlighted text, are saved unencrypted in your browser's extension storage on your computer. They do not sync. Removing the extension deletes them.
+- The extension never changes Claude's page structure and never puts page text into HTML.
+- Highlights are drawn with a browser feature that the claude.ai page itself can also read. So claude.ai can see which text you highlighted, but no other site can.
+
+**Study skill**
+
+- The study page runs in Claude's artifact sandbox. Highlights are saved in that artifact's own storage for your account only, never shared.
+- The page has a security policy that blocks outside images, media, fonts, frames and forms. Even if a bad web page or file tricks Claude, the study page cannot send your data out through these.
+- `SKILL.md` tells Claude to treat text from web pages and files as plain text, and to add no scripts, links or images.
+
+To report a security problem, open a [GitHub issue](https://github.com/bajaj-keshav/claude-highlighter/issues) without private details, and ask for a private contact.
+
 ## Try it without Claude
 
 The `demo` folder has two test pages:

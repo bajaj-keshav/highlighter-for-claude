@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="img-src data:; media-src 'none'; font-src 'none'; object-src 'none'; frame-src 'none'; form-action 'none'; base-uri 'none'">
 <title>{{TITLE}}</title>
 <style>
 :root{--bg:#faf9f5;--fg:#1f1e1d;--muted:#6b6a65;--line:rgba(31,30,29,.13);--panel:#fff;--soft:rgba(31,30,29,.06);
@@ -228,7 +229,13 @@ mark.hl{color:inherit;border-radius:2px;cursor:pointer;-webkit-print-color-adjus
 
   store.get('hl-theme').then((t) => { if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; });
   store.get(KEY).then((data) => {
-    if (data && Array.isArray(data.items)) { items = reanchor(data.items); last = data.last || last; }
+    const C = ['yellow', 'green', 'blue', 'pink'];
+    if (data && Array.isArray(data.items)) {
+      // Keep only well-formed records, so bad saved data can never break the page.
+      items = reanchor(data.items.filter((i) => i && typeof i.id === 'string' && typeof i.text === 'string' && i.text &&
+        C.includes(i.color) && Number.isInteger(i.start) && Number.isInteger(i.end) && i.start >= 0 && i.end > i.start));
+      if (C.includes(data.last)) last = data.last;
+    }
     render();
   });
 })();

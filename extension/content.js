@@ -72,11 +72,27 @@
     else storage.remove(key);
   }
 
+  // Keep only well-formed records, so bad saved data can never break the page.
+  function clean(saved) {
+    if (!Array.isArray(saved)) return [];
+    return saved
+      .filter((h) => h && typeof h.id === 'string' && typeof h.text === 'string' && h.text && COLOR_IDS.includes(h.color))
+      .map((h) => ({
+        id: h.id,
+        color: h.color,
+        text: h.text,
+        prefix: typeof h.prefix === 'string' ? h.prefix : '',
+        suffix: typeof h.suffix === 'string' ? h.suffix : '',
+        pos: Number.isFinite(h.pos) ? h.pos : 0,
+        created: Number.isFinite(h.created) ? h.created : 0,
+      }));
+  }
+
   async function load() {
     const key = storageKey();
     const saved = await storage.get(key);
     if (key !== storageKey()) return; // the user moved to another chat meanwhile
-    items = Array.isArray(saved) ? saved.filter((h) => h && h.text && COLOR_IDS.includes(h.color)) : [];
+    items = clean(saved);
     ranges.clear();
     refresh(true);
   }
@@ -653,7 +669,7 @@
       if (area !== 'local') return;
       const change = changes[storageKey()];
       if (!change) return;
-      const next = change.newValue || [];
+      const next = clean(change.newValue);
       if (JSON.stringify(next) === JSON.stringify(items)) return;
       items = next;
       ranges.clear();
@@ -663,7 +679,8 @@
 
   // Messages from the toolbar popup.
   try {
-    chrome.runtime.onMessage.addListener((msg, _sender, reply) => {
+    chrome.runtime.onMessage.addListener((msg, sender, reply) => {
+      if (sender.id !== chrome.runtime.id) return; // only this extension's popup
       if (msg?.type === 'chl:list') {
         reply({
           dark: isDark,

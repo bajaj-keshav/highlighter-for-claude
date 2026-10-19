@@ -18,9 +18,14 @@ function send(message) {
 
 function render() {
   const n = highlights.length;
-  statusEl.innerHTML = n
-    ? `<mark>${n} ${n === 1 ? 'highlight' : 'highlights'}</mark> in this chat.`
-    : 'No highlights in this chat yet.';
+  statusEl.textContent = '';
+  if (n) {
+    const mark = document.createElement('mark');
+    mark.textContent = `${n} ${n === 1 ? 'highlight' : 'highlights'}`;
+    statusEl.append(mark, ' in this chat.');
+  } else {
+    statusEl.textContent = 'No highlights in this chat yet.';
+  }
   actionsEl.hidden = false;
   copyBtn.disabled = n === 0;
   clearBtn.disabled = n === 0;
