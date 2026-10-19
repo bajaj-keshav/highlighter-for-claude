@@ -1,5 +1,5 @@
 /*
- * Claude Highlighter — content script.
+ * Highlighter for Claude — content script.
  *
  * How it works:
  * - Highlights are drawn with the CSS Custom Highlight API (CSS.highlights).
@@ -15,7 +15,7 @@
   window.__claudeHighlighterLoaded = true;
 
   if (typeof CSS === 'undefined' || !CSS.highlights || typeof Highlight !== 'function') {
-    console.warn('[Claude Highlighter] This browser does not support the CSS Custom Highlight API.');
+    console.warn('[Highlighter for Claude] This browser does not support the CSS Custom Highlight API.');
     return;
   }
 
@@ -32,7 +32,7 @@
   const COLOR_IDS = COLORS.map((c) => c.id);
   const CONTEXT_CHARS = 40;
   const KEY_PREFIX = 'hl:';
-  const HOST_ID = 'claude-highlighter-host';
+  const HOST_ID = 'highlighter-for-claude-host';
 
   // ---------------------------------------------------------------------------
   // State
@@ -366,7 +366,7 @@
   }
 
   const pageStyle = document.createElement('style');
-  pageStyle.id = 'claude-highlighter-style';
+  pageStyle.id = 'highlighter-for-claude-style';
 
   function applyTheme() {
     const dark = detectDark();

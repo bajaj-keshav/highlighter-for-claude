@@ -1,4 +1,4 @@
-# Claude Highlighter
+# Highlighter for Claude
 
 Highlight Claude's answers, like a highlighter pen on paper.
 
@@ -40,11 +40,11 @@ To change or remove a highlight, click it.
 
 Works in Chrome, Edge, Brave, Arc and other Chromium browsers (version 105 or later).
 
-1. Download [**claude-highlighter-extension.zip**](https://github.com/bajaj-keshav/claude-highlighter/releases/latest/download/claude-highlighter-extension.zip), then unzip it.
+1. Download [**highlighter-for-claude-extension.zip**](https://github.com/bajaj-keshav/highlighter-for-claude/releases/latest/download/highlighter-for-claude-extension.zip), then unzip it.
 2. Open `chrome://extensions` in your browser.
 3. Turn on **Developer mode** (top-right corner).
 4. Click **Load unpacked**.
-5. Select the unzipped `claude-highlighter-extension` folder.
+5. Select the unzipped `highlighter-for-claude-extension` folder.
 6. Open [claude.ai](https://claude.ai). If a chat was already open, reload the tab.
 
 Tip: pin the extension (puzzle icon → pin) to see the highlight count and the copy button.
@@ -90,7 +90,7 @@ You can also ask for an earlier answer: `Put your last answer in a study page`.
 > [!IMPORTANT]
 > Upload only `study-highlighter.zip`. The repository ZIP from **Code → Download ZIP** does not work: Claude shows "Zip cannot contain nested zip files".
 
-1. Download [**study-highlighter.zip**](https://github.com/bajaj-keshav/claude-highlighter/releases/latest/download/study-highlighter.zip). Do not unzip it.
+1. Download [**study-highlighter.zip**](https://github.com/bajaj-keshav/highlighter-for-claude/releases/latest/download/study-highlighter.zip). Do not unzip it.
 2. On [claude.ai](https://claude.ai), open **Settings → Capabilities**.
 3. Make sure **Code execution and file creation** is on.
 4. Under **Skills**, click **Upload skill** and select the ZIP.
@@ -123,7 +123,7 @@ For **Claude Code**: copy the `skill/study-highlighter` folder to `~/.claude/ski
 - The page has a security policy that blocks outside images, media, fonts, frames and forms. Even if a bad web page or file tricks Claude, the study page cannot send your data out through these.
 - `SKILL.md` tells Claude to treat text from web pages and files as plain text, and to add no scripts, links or images.
 
-To report a security problem, open a [GitHub issue](https://github.com/bajaj-keshav/claude-highlighter/issues) without private details, and ask for a private contact.
+To report a security problem, open a [GitHub issue](https://github.com/bajaj-keshav/highlighter-for-claude/issues) without private details, and ask for a private contact.
 
 ## Try it without Claude
 
@@ -154,7 +154,7 @@ scripts/
 demo/                       Local test pages
 ```
 
-To make the release files, run `./scripts/package_skill.sh`. It writes both ZIPs to `dist/` (not in git). Attach them to a [GitHub release](https://github.com/bajaj-keshav/claude-highlighter/releases).
+To make the release files, run `./scripts/package_skill.sh`. It writes both ZIPs to `dist/` (not in git). Attach them to a [GitHub release](https://github.com/bajaj-keshav/highlighter-for-claude/releases).
 
 ## Contributing
 
@@ -164,4 +164,4 @@ Issues and pull requests are welcome. Please test light and dark mode on the dem
 
 [MIT](LICENSE)
 
-Claude Highlighter is a community project. It is not made by or affiliated with Anthropic.
+Highlighter for Claude is a community project. It is not made by or affiliated with Anthropic.
