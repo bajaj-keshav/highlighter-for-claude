@@ -40,11 +40,11 @@ To change or remove a highlight, click it.
 
 Works in Chrome, Edge, Brave, Arc and other Chromium browsers (version 105 or later).
 
-1. Download this repository: click **Code → Download ZIP**, then unzip it.
+1. Download [**claude-highlighter-extension.zip**](https://github.com/bajaj-keshav/claude-highlighter/releases/latest/download/claude-highlighter-extension.zip), then unzip it.
 2. Open `chrome://extensions` in your browser.
 3. Turn on **Developer mode** (top-right corner).
 4. Click **Load unpacked**.
-5. Select the `extension` folder.
+5. Select the unzipped `claude-highlighter-extension` folder.
 6. Open [claude.ai](https://claude.ai). If a chat was already open, reload the tab.
 
 Tip: pin the extension (puzzle icon → pin) to see the highlight count and the copy button.
@@ -87,7 +87,10 @@ You can also ask for an earlier answer: `Put your last answer in a study page`.
 
 ### Install
 
-1. Download [`dist/study-highlighter.zip`](dist/study-highlighter.zip). Do not unzip it.
+> [!IMPORTANT]
+> Upload only `study-highlighter.zip`. The repository ZIP from **Code → Download ZIP** does not work: Claude shows "Zip cannot contain nested zip files".
+
+1. Download [**study-highlighter.zip**](https://github.com/bajaj-keshav/claude-highlighter/releases/latest/download/study-highlighter.zip). Do not unzip it.
 2. On [claude.ai](https://claude.ai), open **Settings → Capabilities**.
 3. Make sure **Code execution and file creation** is on.
 4. Under **Skills**, click **Upload skill** and select the ZIP.
@@ -126,15 +129,14 @@ extension/                  Browser extension (Manifest V3)
 skill/study-highlighter/    Claude skill
   SKILL.md                  Instructions for Claude
   assets/template.html      Study page with the built-in highlighter
-dist/study-highlighter.zip  The skill, ready to upload
 scripts/
   make_icons.py             Draws the extension icons
   make_study_demo.py        Builds demo/study.html from the template
-  package_skill.sh          Builds dist/study-highlighter.zip
+  package_skill.sh          Builds the two release ZIPs in dist/
 demo/                       Local test pages
 ```
 
-After you change the skill, run `./scripts/package_skill.sh` to rebuild the ZIP.
+To make the release files, run `./scripts/package_skill.sh`. It writes both ZIPs to `dist/` (not in git). Attach them to a [GitHub release](https://github.com/bajaj-keshav/claude-highlighter/releases).
 
 ## Contributing
 
